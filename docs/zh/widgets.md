@@ -154,3 +154,24 @@ echo $table->render();
 
 ```
 
+## Button
+
+`Encore\Admin\Widgets\Button` 类用来生成 Application Button:
+
+````php
+use Encore\Admin\Widgets\Button;
+
+$btn = new Button('Google', 'google', 'https://www.google.com', 'New', 'green');
+
+// or
+
+$button = new Button();
+
+$button->title('Google');
+$button->icon('google'); // Font Awesome
+$button->link('https:://www.google.com');
+$button->badge('New');
+$button->style('green');
+
+return $btn->render();
+````
