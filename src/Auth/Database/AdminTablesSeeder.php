@@ -15,8 +15,9 @@ class AdminTablesSeeder extends Seeder
     public function run()
     {
         // create a user.
-        Administrator::truncate();
-        Administrator::create([
+        $userModel = config('admin.database.users_model');
+        $userModel::truncate();
+        $userModel::create([
             'username' => 'admin',
             'password' => Hash::make('admin'),
             'name'     => 'Administrator',
