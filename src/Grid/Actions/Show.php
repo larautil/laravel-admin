@@ -11,7 +11,7 @@ class Show extends RowAction
      */
     public function name()
     {
-        return __('admin.show');
+        return '<i class="fa fa-info-circle"></i>'.__('admin.show');
     }
 
     /**
