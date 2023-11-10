@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 
 class CreateAdminTables extends Migration
 {
@@ -98,6 +99,8 @@ class CreateAdminTables extends Migration
             $table->index('user_id');
             $table->timestamps();
         });
+
+        Artisan::call('db:seed', ['--class' => 'Encore\\Admin\\Auth\\Database\\AdminTablesSeeder']);
     }
 
     /**
