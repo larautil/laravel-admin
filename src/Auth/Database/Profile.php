@@ -54,7 +54,7 @@ class Profile extends Model
      *
      * @return string
      */
-    public function getPhotoAttribute(string $photo)
+    public function getPhotoAttribute(?string $photo = null)
     {
         if ($photo && url()->isValidUrl($photo)) {
             return $photo;
