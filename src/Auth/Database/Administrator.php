@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Class Administrator.
@@ -39,6 +40,28 @@ class Administrator extends Model implements AuthenticatableContract
         $this->setTable(config('admin.database.users_table'));
 
         parent::__construct($attributes);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = Str::orderedUuid()->toString();
+        });
+
+        static::created(function ($model) {
+            $profile = new Profile();
+            $model->profile()->save($profile);
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 
     /**

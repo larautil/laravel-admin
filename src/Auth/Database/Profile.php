@@ -6,6 +6,7 @@ use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Profile extends Model
 {
@@ -27,6 +28,23 @@ class Profile extends Model
         $this->setTable(config('admin.database.users_profile_table'));
 
         parent::__construct($attributes);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = Str::orderedUuid()->toString();
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 
     /**
@@ -51,6 +69,7 @@ class Profile extends Model
         $default = match($this->gender) {
             1 => '/vendor/laravel-admin/laravel-admin/img/user-profile-image-male.png',
             2 => '/vendor/laravel-admin/laravel-admin/img/user-profile-image-female.png',
+            default => '/vendor/laravel-admin/laravel-admin/img/user-profile-image-unisex.png'
         };
 
         return admin_asset($default);

@@ -24,6 +24,7 @@ class CreateAdminTables extends Migration
     {
         Schema::create(config('admin.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
+            $table->uuid('uuid');
             $table->string('username', 190)->unique();
             $table->string('password', 60);
             $table->string('name');
@@ -35,13 +36,17 @@ class CreateAdminTables extends Migration
 
         Schema::create(config('admin.database.users_profile_table'), function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(
-                table: config('admin.database.users_table'), indexName: 'user_profile_id'
-            )->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('first_name');
+            $table->uuid('uuid');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on(config('admin.database.users_table'))
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('preferred_name');
-            $table->unsignedTinyInteger('gender');
+            $table->string('preferred_name')->nullable();
+            $table->unsignedTinyInteger('gender')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('nationality')->nullable();
             $table->unsignedTinyInteger('id_type')->nullable();
