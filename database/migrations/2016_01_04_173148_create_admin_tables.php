@@ -24,12 +24,44 @@ class CreateAdminTables extends Migration
     {
         Schema::create(config('admin.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
+            $table->uuid('uuid');
             $table->string('username', 190)->unique();
             $table->string('password', 60);
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->string('remember_token', 100)->nullable();
             $table->string('type')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create(config('admin.database.users_profile_table'), function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid');
+            $table->unsignedInteger('user_id');
+//            $table->foreign('user_id')
+//                ->references('id')
+//                ->on(config('admin.database.users_table'))
+//                ->cascadeOnUpdate()
+//                ->cascadeOnDelete();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('preferred_name')->nullable();
+            $table->unsignedTinyInteger('gender')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('nationality')->nullable();
+            $table->unsignedTinyInteger('id_type')->nullable();
+            $table->string('id_number')->nullable();
+            $table->string('photo')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('blk')->nullable();
+            $table->string('street_name')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('postal')->nullable();
+            $table->decimal('lat', 10,7)->nullable();
+            $table->decimal('lng', 10,7)->nullable();
+            $table->text('preferred_areas')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
 
@@ -111,6 +143,7 @@ class CreateAdminTables extends Migration
     public function down()
     {
         Schema::dropIfExists(config('admin.database.users_table'));
+        Schema::dropIfExists(config('admin.database.users_profile_table'));
         Schema::dropIfExists(config('admin.database.roles_table'));
         Schema::dropIfExists(config('admin.database.permissions_table'));
         Schema::dropIfExists(config('admin.database.menu_table'));

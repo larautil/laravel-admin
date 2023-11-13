@@ -4,10 +4,13 @@ namespace Encore\Admin\Auth\Database;
 
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * Class Administrator.
@@ -17,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 class Administrator extends Model implements AuthenticatableContract
 {
     use Authenticatable;
+    use Notifiable;
     use HasPermissions;
     use DefaultDatetimeFormat;
 
@@ -36,6 +40,28 @@ class Administrator extends Model implements AuthenticatableContract
         $this->setTable(config('admin.database.users_table'));
 
         parent::__construct($attributes);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = Str::orderedUuid()->toString();
+        });
+
+        static::created(function ($model) {
+            $profile = new Profile();
+            $model->profile()->save($profile);
+        });
+    }
+
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 
     /**
@@ -60,6 +86,18 @@ class Administrator extends Model implements AuthenticatableContract
         $default = config('admin.default_avatar') ?: '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg';
 
         return admin_asset($default);
+    }
+
+    /**
+     * A user has one profile.
+     *
+     * @return HasOne
+     */
+    public function profile(): HasOne
+    {
+        $relatedModel = config('admin.database.users_profile_model');
+
+        return $this->hasOne($relatedModel, 'user_id', 'id');
     }
 
     /**

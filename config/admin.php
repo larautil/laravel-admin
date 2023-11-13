@@ -179,6 +179,10 @@ return [
         'users_table' => 'admin_users',
         'users_model' => Encore\Admin\Auth\Database\Administrator::class,
 
+        // User profile tables and model.
+        'users_profile_table' => 'admin_user_profiles',
+        'users_profile_model' => Encore\Admin\Auth\Database\Profile::class,
+
         // Role table and model.
         'roles_table' => 'admin_roles',
         'roles_model' => Encore\Admin\Auth\Database\Role::class,
@@ -275,7 +279,7 @@ return [
     |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'skin' => env('ADMIN_SKIN', 'skin-blue-light'),
+    'skin' => env('ADMIN_SKIN', 'skin-black'),
 
     /*
     |--------------------------------------------------------------------------
@@ -289,7 +293,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['fixed', 'sidebar-mini'],
 
     /*
     |--------------------------------------------------------------------------
