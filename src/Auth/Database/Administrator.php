@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Parental\HasChildren;
 
 /**
  * Class Administrator.
@@ -23,6 +24,7 @@ class Administrator extends Model implements AuthenticatableContract
     use Notifiable;
     use HasPermissions;
     use DefaultDatetimeFormat;
+    use HasChildren;
 
     protected $fillable = ['username', 'password', 'name', 'avatar', 'type'];
 
