@@ -33,6 +33,32 @@ class CreateAdminTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create(config('admin.database.users_profile_table'), function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained(
+                table: config('admin.database.users_table'), indexName: 'user_profile_id'
+            )->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('first_name');
+            $table->string('last_name')->nullable();
+            $table->string('preferred_name');
+            $table->unsignedTinyInteger('gender');
+            $table->date('birth_date')->nullable();
+            $table->string('nationality')->nullable();
+            $table->unsignedTinyInteger('id_type')->nullable();
+            $table->string('id_number')->nullable();
+            $table->string('photo')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('blk')->nullable();
+            $table->string('street_name')->nullable();
+            $table->string('unit')->nullable();
+            $table->string('postal')->nullable();
+            $table->decimal(10,7)->nullable();
+            $table->decimal(10,7)->nullable();
+            $table->text('preferred_areas')->nullable();
+            $table->text('description')->nullable();
+        });
+
         Schema::create(config('admin.database.roles_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 50)->unique();
@@ -111,6 +137,7 @@ class CreateAdminTables extends Migration
     public function down()
     {
         Schema::dropIfExists(config('admin.database.users_table'));
+        Schema::dropIfExists(config('admin.database.users_profile_table'));
         Schema::dropIfExists(config('admin.database.roles_table'));
         Schema::dropIfExists(config('admin.database.permissions_table'));
         Schema::dropIfExists(config('admin.database.menu_table'));
