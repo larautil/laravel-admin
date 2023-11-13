@@ -58,8 +58,8 @@ class CreateAdminTables extends Migration
             $table->string('street_name')->nullable();
             $table->string('unit')->nullable();
             $table->string('postal')->nullable();
-            $table->decimal(10,7)->nullable();
-            $table->decimal(10,7)->nullable();
+            $table->decimal('lat', 10,7)->nullable();
+            $table->decimal('lng', 10,7)->nullable();
             $table->text('preferred_areas')->nullable();
             $table->text('description')->nullable();
         });
