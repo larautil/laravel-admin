@@ -38,11 +38,11 @@ class CreateAdminTables extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->unsignedInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')
-                ->on(config('admin.database.users_table'))
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+//            $table->foreign('user_id')
+//                ->references('id')
+//                ->on(config('admin.database.users_table'))
+//                ->cascadeOnUpdate()
+//                ->cascadeOnDelete();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('preferred_name')->nullable();
