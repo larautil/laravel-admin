@@ -24,6 +24,7 @@ class CreateAdminTables extends Migration
     {
         Schema::create(config('admin.database.users_table'), function (Blueprint $table) {
             $table->increments('id');
+            $table->uuid('uuid');
             $table->string('username', 190)->unique();
             $table->string('password', 60);
             $table->string('name');
@@ -42,10 +43,10 @@ class CreateAdminTables extends Migration
                 ->on(config('admin.database.users_table'))
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('preferred_name');
-            $table->unsignedTinyInteger('gender');
+            $table->string('preferred_name')->nullable();
+            $table->unsignedTinyInteger('gender')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('nationality')->nullable();
             $table->unsignedTinyInteger('id_type')->nullable();

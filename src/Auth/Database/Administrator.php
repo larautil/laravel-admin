@@ -49,6 +49,11 @@ class Administrator extends Model implements AuthenticatableContract
         static::creating(function ($model) {
             $model->uuid = Str::orderedUuid()->toString();
         });
+
+        static::created(function ($model) {
+            $profile = new Profile();
+            $model->profile()->save($profile);
+        });
     }
 
     /**
