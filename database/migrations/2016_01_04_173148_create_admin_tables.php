@@ -62,6 +62,7 @@ class CreateAdminTables extends Migration
             $table->decimal('lng', 10,7)->nullable();
             $table->text('preferred_areas')->nullable();
             $table->text('description')->nullable();
+            $table->timestamps();
         });
 
         Schema::create(config('admin.database.roles_table'), function (Blueprint $table) {
