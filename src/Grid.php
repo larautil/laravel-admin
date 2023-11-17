@@ -132,6 +132,13 @@ class Grid
     public $perPage = 20;
 
     /**
+     * Grid box style.
+     *
+     * @var string
+     */
+    public $style = 'default';
+
+    /**
      * @var []callable
      */
     protected $renderingCallbacks = [];
@@ -459,6 +466,18 @@ class Grid
     public function perPages(array $perPages)
     {
         $this->perPages = $perPages;
+    }
+
+    /**
+     * Set style.
+     *
+     * @param $style
+     */
+    public function setStyle($style)
+    {
+        $this->style = $style;
+
+        return $this;
     }
 
     /**
@@ -830,6 +849,8 @@ class Grid
     protected function variables()
     {
         $this->variables['grid'] = $this;
+
+        $this->variables['style'] = $this->style;
 
         return $this->variables;
     }
