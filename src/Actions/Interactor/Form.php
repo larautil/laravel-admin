@@ -34,13 +34,32 @@ class Form extends Interactor
     protected $confirm = '';
 
     /**
+     * @var string[]
+     */
+    protected $buttons = ['close', 'submit'];
+
+    /**
      * @param string $label
      *
      * @return array
      */
     protected function formatLabel($label)
     {
-        return array_filter((array) $label);
+        return array_filter((array)$label);
+    }
+
+    /**
+     * @param $html
+     * @param $arguments
+     * @return Field\Html
+     */
+    public function htmlDiv($html, $arguments)
+    {
+        $field = new Field\Html($html, $arguments);
+
+        $this->addField($field);
+
+        return $field;
     }
 
     /**
@@ -60,7 +79,7 @@ class Form extends Interactor
 
     /**
      * @param $column
-     * @param string   $label
+     * @param string $label
      * @param \Closure $builder
      *
      * @return Field\Table
@@ -373,6 +392,30 @@ class Form extends Interactor
     }
 
     /**
+     * Disable submit button.
+     *
+     * @return $this
+     */
+    public function disableSubmit()
+    {
+        array_delete($this->buttons, 'submit');
+
+        return $this;
+    }
+
+    /**
+     * Disable close button.
+     *
+     * @return $this
+     */
+    public function disableClose()
+    {
+        array_delete($this->buttons, 'close');
+
+        return $this;
+    }
+
+    /**
      * @param string $content
      * @param string $selector
      *
@@ -409,10 +452,10 @@ class Form extends Interactor
     /**
      * @param Request $request
      *
-     * @throws ValidationException
+     * @return void
      * @throws \Exception
      *
-     * @return void
+     * @throws ValidationException
      */
     public function validate(Request $request)
     {
@@ -480,10 +523,11 @@ class Form extends Interactor
     public function addModalHtml()
     {
         $data = [
-            'fields'     => $this->fields,
-            'title'      => $this->action->name(),
-            'modal_id'   => $this->getModalId(),
-            'modal_size' => $this->modalSize,
+            'fields'        => $this->fields,
+            'title'         => $this->action->name(),
+            'modal_id'      => $this->getModalId(),
+            'modal_size'    => $this->modalSize,
+            'modal_buttons' => $this->buttons,
         ];
 
         $modal = view('admin::actions.form.modal', $data)->render();
@@ -498,7 +542,7 @@ class Form extends Interactor
     {
         if (!$this->modalId) {
             if ($this->action instanceof RowAction) {
-                $this->modalId = uniqid('row-action-modal-').mt_rand(1000, 9999);
+                $this->modalId = uniqid('row-action-modal-') . mt_rand(1000, 9999);
             } else {
                 $this->modalId = strtolower(str_replace('\\', '-', get_class($this->action)));
             }
@@ -535,6 +579,11 @@ class Form extends Interactor
             {$this->action->handleActionPromise()}
         });
     });
+
+    $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+    $("div[id^='grid-modal-']").removeAttr('tabindex');
+    $("div[id='modal']").removeAttr('tabindex');
+
 })(jQuery);
 
 SCRIPT;
@@ -628,9 +677,9 @@ SCRIPT;
     }
 
     /**
+     * @return string
      * @throws \Exception
      *
-     * @return string
      */
     protected function buildActionPromise()
     {
