@@ -34,8 +34,11 @@ use Illuminate\Http\Request;
  * @method Field\Datetime       datetime($column, $label = '')
  * @method Field\Time           time($column, $label = '')
  * @method Field\Hidden         hidden($column, $label = '')
+ * @method Field\Html           htmlDiv($html = '<div></div>', $arguments = [''])
  * @method $this                modalLarge()
  * @method $this                modalSmall()
+ * @method $this                disableSubmit()
+ * @method $this                disableClose()
  */
 abstract class Action implements Renderable
 {
