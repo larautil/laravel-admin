@@ -43,7 +43,7 @@ trait ExtendDisplay
         'editable'      => Displayers\Editable::class,
         'image'         => Displayers\Image::class,
         'label'         => Displayers\Label::class,
-        'button'        => Displayers\DatetimeFormat::class,
+        'button'        => Displayers\Button::class,
         'link'          => Displayers\Link::class,
         'badge'         => Displayers\Badge::class,
         'progressBar'   => Displayers\ProgressBar::class,
