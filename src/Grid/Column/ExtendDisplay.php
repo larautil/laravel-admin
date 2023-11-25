@@ -43,7 +43,7 @@ trait ExtendDisplay
         'editable'      => Displayers\Editable::class,
         'image'         => Displayers\Image::class,
         'label'         => Displayers\Label::class,
-        'button'        => Displayers\Button::class,
+        'button'        => Displayers\DatetimeFormat::class,
         'link'          => Displayers\Link::class,
         'badge'         => Displayers\Badge::class,
         'progressBar'   => Displayers\ProgressBar::class,
@@ -281,6 +281,20 @@ trait ExtendDisplay
 
         return $this->display(function ($value) {
             return Carbon::parse($value)->diffForHumans();
+        });
+    }
+
+    /**
+     * Return a local format datetime.
+     *
+     * @param string $format
+     * @param string $timezone
+     * @return Column
+     */
+    public function localDatetime($format = 'Y-m-d H:i:s', $timezone = 'Asia/Singapore')
+    {
+        return $this->display(function ($value) use ($format, $timezone) {
+            return Carbon::parse($value)->tz($timezone)->format($format);
         });
     }
 

@@ -324,6 +324,12 @@ if (!function_exists('json_encode_options')) {
 if (!function_exists('admin_get_route')) {
     function admin_get_route(string $name): string
     {
-        return config('admin.route.prefix').'.'.$name;
+        // use to return handle-renderable & handle-selectable route
+        // laravel-admin configured these two route with prefix "admin", didn't use customized config('admin.route.prefix')
+        // Override this prefix to 'admin'
+
+        $adminPrefix = config('admin.route.prefix') === "" ? 'admin' : '';
+
+        return $adminPrefix.'.'.$name;
     }
 }
