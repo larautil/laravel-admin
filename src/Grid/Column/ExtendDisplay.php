@@ -285,6 +285,20 @@ trait ExtendDisplay
     }
 
     /**
+     * Return a local format datetime.
+     *
+     * @param string $format
+     * @param string $timezone
+     * @return Column
+     */
+    public function localDatetime($format = 'Y-m-d H:i:s', $timezone = 'Asia/Singapore')
+    {
+        return $this->display(function ($value) use ($format, $timezone) {
+            return Carbon::parse($value)->tz($timezone)->format($format);
+        });
+    }
+
+    /**
      * Display column as boolean , `✓` for true, and `✗` for false.
      *
      * @param array $map
