@@ -294,7 +294,7 @@ trait ExtendDisplay
     public function localDatetime($format = 'Y-m-d H:i:s', $timezone = 'Asia/Singapore')
     {
         return $this->display(function ($value) use ($format, $timezone) {
-            return Carbon::parse($value)->tz($timezone)->format($format);
+            return $value ? Carbon::parse($value)->tz($timezone)->format($format) : null;
         });
     }
 
