@@ -4,6 +4,7 @@
 
         <div class="input-group-btn" style="display: inline-block;">
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+            <a href="{!! $action !!}" class="btn btn-default"><i class="fa fa-refresh"></i></a>
         </div>
     </div>
 </form>
