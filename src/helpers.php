@@ -328,7 +328,7 @@ if (!function_exists('admin_get_route')) {
         // laravel-admin configured these two route with prefix "admin", didn't use customized config('admin.route.prefix')
         // Override this prefix to 'admin'
 
-        $adminPrefix = config('admin.route.prefix') === "" ? 'admin' : '';
+        $adminPrefix = config('admin.route.prefix') === "" ? 'admin' : config('admin.route.prefix');
 
         return $adminPrefix.'.'.$name;
     }
